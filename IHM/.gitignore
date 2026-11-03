@@ -19,3 +19,6 @@ arduino_secrets.h
 # Captures réseau sensibles
 *.pcap
 *.pcapng
+
+# Bases de données générées
+*.db

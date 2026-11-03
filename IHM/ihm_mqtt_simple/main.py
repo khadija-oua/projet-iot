@@ -11,11 +11,17 @@ from client_mqtt import ClientMQTT
 from thread_mqtt import ThreadMQTT
 from config import ID_CAPTEUR, TOPICS_LECTURE, TOPIC_COMMAND, TOPIC_BLINK, TOPIC_BARGRAPH
 
+from PySide6.QtWidgets import QPushButton
+from dialogue_courbe import CourbeDialog
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        # Bouton d'ouverture de l'historique
+        self.btnGraph = QPushButton("Afficher les courbes", self.centralwidget)
+        self.btnGraph.setGeometry(450, 400, 200, 36)
+        self.btnGraph.clicked.connect(self.ouvrirCourbes)
         self.setWindowTitle("TempHumiX - IHM MQTT")
         self.mqtt = None
         self.thread_mqtt = None
@@ -153,6 +159,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnDisconnect.setEnabled(False)
         self._commandes_actives(False)
         self.statusbar.showMessage("Déconnecté")
+    def ouvrirCourbes(self):
+        dialogue = CourbeDialog(self)
+        dialogue.exec()
 
     def closeEvent(self, event):
         self.disconnectMQTT()
