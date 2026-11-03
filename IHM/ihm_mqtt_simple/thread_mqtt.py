@@ -1,4 +1,4 @@
-"""Boucle de réception MQTT dans un thread séparé : section 3.6."""
+"""Thread MQTT avec ouverture et fermeture de SQLite (section 5)."""
 from threading import Thread, Event
 
 
@@ -9,8 +9,13 @@ class ThreadMQTT(Thread):
         self._stop_event = Event()
 
     def run(self):
-        while not self._stop_event.is_set():
-            self.mqtt.wait_mqtt(timeout=1.0)
+        # SQLite est utilisée uniquement depuis ce thread.
+        try:
+            self.mqtt.connect_sqlite()
+            while not self._stop_event.is_set():
+                self.mqtt.wait_mqtt(timeout=1.0)
+        finally:
+            self.mqtt.disconnect_sqlite()
 
     def stopthread(self):
         self._stop_event.set()
