@@ -1,0 +1,21 @@
+# Environnements Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Paramètres privés
+.env
+.env.*
+!.env.example
+arduino_secrets.h
+**/arduino_secrets.h
+
+# Fichiers temporaires
+.pytest_cache/
+.idea/
+.vscode/
+
+# Captures réseau sensibles
+*.pcap
+*.pcapng
